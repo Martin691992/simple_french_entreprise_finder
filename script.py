@@ -23,7 +23,7 @@ import time
 #
 #
 
-requetebase = "https://recherche-entreprises.api.gouv.fr/search?page=1&per_page=25&categorie_entreprise=PME&departement=69,01,38,42&section_activite_principale=H&tranche_effectif_salarie=NN,00,01,02,03,11,12,21&etat_administratif=A&activite_principale=49.41A,49.41B,52.10A,52.10B,52.21Z,52.29A,52.29B"
+requetebase = "https://recherche-entreprises.api.gouv.fr/search?page=1&per_page=25&categorie_entreprise=PME&departement=69,01,38,42&section_activite_principale=H&tranche_effectif_salarie=NN,00,01,02,03,11,12,21&etat_administratif=A&activite_principale=52.29A"
 data = requests.get(requetebase)
 response = data.json()
 
@@ -31,19 +31,19 @@ response = data.json()
 index=1    
 for a in range(int(response['total_pages'])):
     print(f'------------   Début de la page N°{index} ----------------------')
-    requete = f"https://recherche-entreprises.api.gouv.fr/search?page={index}&per_page=25&categorie_entreprise=PME&departement=69,01,38,42&section_activite_principale=H&tranche_effectif_salarie=NN,00,01,02,03,11,12,21&etat_administratif=A&activite_principale=49.41A,49.41B,52.10A,52.10B,52.21Z,52.29A,52.29B"
+    requete = f"https://recherche-entreprises.api.gouv.fr/search?page={index}&per_page=25&categorie_entreprise=PME&departement=69,01,38,42&section_activite_principale=H&tranche_effectif_salarie=NN,00,01,02,03,11,12,21&etat_administratif=A&activite_principale=52.29A"
     data_fetch_loop = requests.get(requete)
     response_loop = data_fetch_loop.json()
     
     for i in response_loop['results'] :
         print(i['nom_raison_sociale'])
-        with open('./results.txt','a') as w:
+        with open('./results5229A.txt','a') as w:
             if i['nom_raison_sociale'] != None:
                 w.write(f"{i['nom_raison_sociale']}\n")
     print(f'------------   Fin de la page N°{index} ----------------------')
     index += 1
 
-    time.sleep(2)
+    time.sleep(1)
 
 
 # return_data = response['results']

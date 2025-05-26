@@ -36,10 +36,24 @@ for a in range(int(response['total_pages'])):
     response_loop = data_fetch_loop.json()
     
     for i in response_loop['results'] :
-        print(i['nom_raison_sociale'])
         with open('./results5229A.txt','a') as w:
             if i['nom_raison_sociale'] != None:
-                w.write(f"{i['nom_raison_sociale']}\n")
+                dirigeants_valides = [
+                    f"{d.get('nom','')},{d.get('prenoms','')}"
+                    for d in i.get('dirigeants', [])
+                    if 'nom' in d and 'prenoms' in d
+                ]
+                if dirigeants_valides:
+                    print(f"Raison Entreprise :{i['nom_raison_sociale']} ---- Dirigeants :  {' | '.join(dirigeants_valides)}\n")
+                    w.write(f"Raison Entreprise :{i['nom_raison_sociale']} ---- Dirigeants :  {' | '.join(dirigeants_valides)}\n")
+                else : 
+                    print(f"Raison Entreprise :{i['nom_raison_sociale']} ---- Pas de noms de dirigeants...\n")
+                    w.write(f"Raison Entreprise :{i['nom_raison_sociale']} ---- Pas de noms de dirigeants...\n")
+
+                # noms_dirigeant = [a for a in i['dirigeants']]
+                # print(f"Raison Entreprise :{i['nom_raison_sociale']} ---- Dirigeants :  {' | '.join([f"{d['nom']},{d['prenoms']}" for d in noms_dirigeant if 'nom' in d and 'prenoms' in d])}\n")
+                # w.write(f"Raison Entreprise :{i['nom_raison_sociale']} ---- Dirigeants :  {' | '.join([f"{d['nom']},{d['prenoms']}" for d in noms_dirigeant if 'nom' in d and 'prenoms' in d])}\n")
+
     print(f'------------   Fin de la page N°{index} ----------------------')
     index += 1
 
